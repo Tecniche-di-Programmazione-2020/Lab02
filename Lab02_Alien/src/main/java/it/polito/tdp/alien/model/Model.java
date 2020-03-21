@@ -2,18 +2,18 @@ package it.polito.tdp.alien.model;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Map;
 
 public class Model {
-	private Map<String, List<String>> dizionario;
+	private Map<String, Lista> dizionario;
 
 	public Model() {
-		dizionario = new LinkedHashMap<String, List<String>>();
+		dizionario = new LinkedHashMap<String, Lista>();
 	}
 
 	public String input(String input) {
-		String temp = "";
+		
 		String[] inputSplitted = input.split("\\s+");
 
 		if (!inputSplitted[0].matches("[a-z]*")) {
@@ -29,7 +29,7 @@ public class Model {
 			return ricerca(inputSplitted[0]);
 
 		case 0:
-			return temp;
+			return null;
 
 		default:
 			return "-2";
@@ -40,20 +40,30 @@ public class Model {
 
 	private void nuovaParola(String testo, String traduzione) {
 		
-		List<String> temp=dizionario.get(testo);
-		if(temp==null) {temp=new LinkedList<String>();}
-		temp.add(traduzione);
-		dizionario.replace(testo, temp);
+		Lista lista=dizionario.get(testo);
+		
+		if(lista==null) {lista=new Lista();lista.lista.add(traduzione);dizionario.put(testo,lista);}
+		else {
+			lista.lista.add(traduzione);
+			dizionario.replace(testo, lista);
+		}
+		
 	}
 
 	private String ricerca(String testo) {
-		String traduzione="";
-		List<String> temp=dizionario.get(testo);
-		for(String s:temp) {
-		traduzione=traduzione+s+"\n";	
-		}
+		
+		String traduzione=" ";
+		/*
+		LinkedList<String> temp=dizionario.get(testo);
+		traduzione=Integer.toString(temp.size());
+		for(int i=0;i<temp.size();i++) {
+			traduzione=traduzione+" x ";
+		}*/
+		
+		
+		
 		 
-		return "casa";
+		return dizionario.get(testo).lista.toString();
 	}
 
 	public void reset() {
