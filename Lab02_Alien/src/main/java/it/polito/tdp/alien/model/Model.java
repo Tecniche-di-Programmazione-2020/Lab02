@@ -6,16 +6,15 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Model {
-	private Map<String, Lista> dizionario;
+	private Map<String, LinkedList<String>> dizionario;
 
 	public Model() {
-		dizionario = new LinkedHashMap<String, Lista>();
+		dizionario = new LinkedHashMap<String, LinkedList<String>>();
 	}
 
 	public String input(String input) {
 		
 		String[] inputSplitted = input.split("\\s+");
-
 		if (!inputSplitted[0].matches("[a-z]*")) {
 			return "-1";
 		}
@@ -24,7 +23,6 @@ public class Model {
 		case 2:
 			this.nuovaParola(inputSplitted[0], inputSplitted[1]);
 			return "Aggiunta";
-
 		case 1:
 			return ricerca(inputSplitted[0]);
 
@@ -40,11 +38,11 @@ public class Model {
 
 	private void nuovaParola(String testo, String traduzione) {
 		
-		Lista lista=dizionario.get(testo);
+		LinkedList<String> lista=dizionario.get(testo);
 		
-		if(lista==null) {lista=new Lista();lista.lista.add(traduzione);dizionario.put(testo,lista);}
+		if(lista==null) {lista=new LinkedList<String>();lista.add(traduzione);dizionario.put(testo,lista);}
 		else {
-			lista.lista.add(traduzione);
+			lista.add(traduzione);
 			dizionario.replace(testo, lista);
 		}
 		
@@ -52,18 +50,16 @@ public class Model {
 
 	private String ricerca(String testo) {
 		
-		String traduzione=" ";
-		/*
-		LinkedList<String> temp=dizionario.get(testo);
-		traduzione=Integer.toString(temp.size());
-		for(int i=0;i<temp.size();i++) {
-			traduzione=traduzione+" x ";
-		}*/
+		String traduzione="";
 		
+		if(dizionario.get(testo)==null)return null;
 		
+		for(String s:dizionario.get(testo)) {
+			traduzione=traduzione+s+"\n";
+			
+		}
 		
-		 
-		return dizionario.get(testo).lista.toString();
+		return traduzione;
 	}
 
 	public void reset() {
