@@ -1,13 +1,15 @@
 package it.polito.tdp.alien.model;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Model {
-	private Map<String, String> dizionario;
+	private Map<String, List<String>> dizionario;
 
 	public Model() {
-		dizionario = new LinkedHashMap<String, String>();
+		dizionario = new LinkedHashMap<String, List<String>>();
 	}
 
 	public String input(String input) {
@@ -37,12 +39,21 @@ public class Model {
 	}
 
 	private void nuovaParola(String testo, String traduzione) {
-		dizionario.put(testo, traduzione);
+		
+		List<String> temp=dizionario.get(testo);
+		if(temp==null) {temp=new LinkedList<String>();}
+		temp.add(traduzione);
+		dizionario.replace(testo, temp);
 	}
 
 	private String ricerca(String testo) {
-		String traduzione = dizionario.get(testo);
-		return traduzione;
+		String traduzione="";
+		List<String> temp=dizionario.get(testo);
+		for(String s:temp) {
+		traduzione=traduzione+s+"\n";	
+		}
+		 
+		return "casa";
 	}
 
 	public void reset() {
